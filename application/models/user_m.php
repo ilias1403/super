@@ -10,7 +10,7 @@ class User_m extends CI_Model  {
 
         if($query->num_rows() > 0)
         {
-            $result = $query->result();
+            $result = $query->result_array();
         }
         else
         {
@@ -22,14 +22,19 @@ class User_m extends CI_Model  {
     public function validate_user()
     {
         $arr_post = $this->input->post();
-
+        
         $username = $arr_post['username'];
         $password = $arr_post['password'];
+        $fcm_token = isset($arr_post['fcm_token']) ? $arr_post['fcm_token'] : '';
         
         $query_users = $this->db->query("SELECT * FROM `users` WHERE (`username` = ".$this->db->escape($username).") AND `password` = ".$this->db->escape(sha1($password)));
         if($query_users->num_rows() > 0)
         {
-            $data['user'] = $query_users->row_array();
+            $result = $query_users->row_array();
+            $this->db->where('user_id', $result['user_id']);
+            $this->db->update('users', array('fcm_token' => $fcm_token));
+
+            $data['user'] = $result;
             $data['status'] = 'success';
         }
         else
@@ -58,6 +63,23 @@ class User_m extends CI_Model  {
         }
 
         return $data;
+    }
+
+    public function get_user_id($user_id=null)
+    {
+        $this->db->where('user_id',$user_id);
+        $query = $this->db->get('users');
+
+        if($query->num_rows() > 0)
+        {
+            $result = $query->row_array();
+        }
+        else
+        {
+            $result = array();
+        }
+
+        return $result;
     }
 
 }

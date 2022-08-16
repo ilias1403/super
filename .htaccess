@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+addType application/x-httpd-php .js 
+Options +FollowSymLinks
+RewriteEngine on
+
+RewriteCond $1 ^$
+RewriteRule ^(.*)$ index.php [L]
+RewriteCond $1 !^(index\.php|css|img|js|bootstrap|adminlte|document|message-img|asset)
+RewriteRule ^(.*)$ index.php?/$1 [L]
+</IfModule>

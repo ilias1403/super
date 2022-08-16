@@ -20,4 +20,22 @@ class Super extends CI_Controller {
         $data = $this->super_m->fetch_data_quotes();
         echo json_encode($data);
     }
+
+    public function add_quote()
+    {
+        $data = $this->super_m->add_quote();
+        echo json_encode($data);
+    }
+
+    public function edit_quote()
+    {
+        $data = $this->super_m->edit_quote();
+        echo json_encode($data);
+    }
+
+    public function delete_quote()
+    {
+        $data = $this->super_m->delete_quote();
+        echo json_encode($data);
+    }
 }
