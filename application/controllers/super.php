@@ -33,6 +33,12 @@ class Super extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function get_quote_by_id()
+    {
+        $data = $this->super_m->get_quote_by_id();
+        echo json_encode($data);
+    }
+
     public function delete_quote()
     {
         $data = $this->super_m->delete_quote();

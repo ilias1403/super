@@ -26,13 +26,18 @@ class User_m extends CI_Model  {
         $username = $arr_post['username'];
         $password = $arr_post['password'];
         $fcm_token = isset($arr_post['fcm_token']) ? $arr_post['fcm_token'] : '';
+        $os = isset($arr_post['os']) ? $arr_post['os'] : '';
+        $device_info = isset($arr_post['device_info']) ? $arr_post['device_info'] : '';
         
         $query_users = $this->db->query("SELECT * FROM `users` WHERE (`username` = ".$this->db->escape($username).") AND `password` = ".$this->db->escape(sha1($password)));
         if($query_users->num_rows() > 0)
         {
             $result = $query_users->row_array();
+            $this->db->set('fcm_token', $fcm_token);
+            $this->db->set('os', $os);
+            $this->db->set('device_info', $device_info);
             $this->db->where('user_id', $result['user_id']);
-            $this->db->update('users', array('fcm_token' => $fcm_token));
+            $this->db->update('users');
 
             $data['user'] = $result;
             $data['status'] = 'success';

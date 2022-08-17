@@ -80,4 +80,26 @@ class Super_m extends CI_Model  {
         return $data;
     }
 
+    public function get_quote_by_id()
+    {
+        $arr_post = $this->input->post();
+        $quote_id = $arr_post['quote_id'];
+        $this->db->select("*");
+        $this->db->from("quotes");
+        $this->db->where("quote_id", $quote_id);
+        $this->db->where("status", "1");
+        $query = $this->db->get();
+        
+        if($query->num_rows() > 0)
+        {
+            $result = $query->row_array();
+        }
+        else
+        {
+            $result = array();
+        }
+        
+        return $result;
+    }
+
 }
