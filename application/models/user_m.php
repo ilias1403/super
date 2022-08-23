@@ -39,8 +39,10 @@ class User_m extends CI_Model  {
             $this->db->where('user_id', $result['user_id']);
             $this->db->update('users');
             $this->insert_device_info($arr_post,$result['user_id']);
+            $is_device_active = $this->validate_user_device_id($arr_post,$result['user_id']);
 
-            $data['user'] = $this->validate_user_device_id($result['user_id']);
+            $data['user'] = $result;
+            $data['is_device_active'] = $is_device_active;
             $data['status'] = 'success';
         }
         else
@@ -93,20 +95,37 @@ class User_m extends CI_Model  {
 
     }
 
-    public function validate_user_device_id($user_id)
+    public function validate_user_device_id($arr_post=null,$user_id)
     {
-        $this->db->select('a.*,b.*');
+        $arr = json_decode($arr_post['device_info'], true);
+
+        $this->db->select('b.*');
         $this->db->from('users a');
         $this->db->join('users_device b', 'a.user_id = b.users_id');
         $this->db->where('a.user_id', $user_id);
         $this->db->where('b.status', 1);
         $query = $this->db->get();
+        $last_query = $this->db->last_query();
         if($query->num_rows() > 0)
         {
             $result = $query->row_array();
+            if($result['device_unique_id'] == $arr['id'] && $result['device_brand'] == $arr['brand'] && $result['device_model'] == $arr['model'])
+            {
+                $data['user'] = $result;
+                $data['is_device_active'] = 'success';
+            }
+            else
+            {
+                $data['user'] = $result;
+                $data['is_device_active'] = 'error';
+            }
+        }
+        else
+        {
+            $data['is_device_active'] = 'success';
         }
 
-        return $result;
+        return $data;
     }
 
     public function update_fcm_token()
@@ -144,6 +163,40 @@ class User_m extends CI_Model  {
         }
 
         return $result;
+    }
+
+    public function get_user_device_active()
+    {
+        $arr_post = $this->input->post();
+        ad($arr_post);die;
+        $arr = json_decode($arr_post['device_info'], true);
+
+        $this->db->select('b.*');
+        $this->db->from('users a');
+        $this->db->join('users_device b', 'a.user_id = b.users_id');
+        $this->db->where('a.user_id', $arr_post['user_id']);
+        $this->db->where('b.status', 1);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            $result = $query->row_array();
+            if($result['device_unique_id'] == $arr['id'] && $result['device_brand'] == $arr['brand'] && $result['device_model'] == $arr['model'])
+            {
+                $data['user'] = $result;
+                $data['is_device_active'] = 'success';
+            }
+            else
+            {
+                $data['user'] = $result;
+                $data['is_device_active'] = 'error';
+            }
+        }
+        else
+        {
+            $data['is_device_active'] = 'success';
+        }
+
+        return $data;
     }
 
 }

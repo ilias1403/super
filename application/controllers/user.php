@@ -21,6 +21,12 @@ class User extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function get_user_device_active()
+    {
+        $data = $this->user_m->get_user_device_active();
+        echo json_encode($data);
+    }
+
     public function validate_user()
     {
         $data = $this->user_m->validate_user();
