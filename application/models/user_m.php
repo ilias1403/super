@@ -62,7 +62,16 @@ class User_m extends CI_Model  {
         $query = $this->db->get();
         if($query->num_rows() > 0)
         {
-            // nothing
+            // inactive all other device
+            $this->db->set('status', 0);
+            $this->db->where('users_id', $user_id);
+            $this->db->update('users_device');
+
+            // active current device
+            $this->db->set('status', 1);
+            $this->db->where('users_id', $user_id);
+            $this->db->where('device_unique_id', $arr['id']);
+            $this->db->update('users_device');
         }
         else
         {
