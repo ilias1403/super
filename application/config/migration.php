@@ -23,7 +23,7 @@ $config['migration_type'] = 'sequential';
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 2;
+$config['migration_version'] = 3;
 
 
 /*

@@ -32,4 +32,9 @@ class User extends CI_Controller {
         $data = $this->user_m->update_fcm_token();
         echo json_encode($data);
     }
+
+    public function insert_device_info()
+    {
+        $data = $this->user_m->insert_device_info();
+    }
 }
