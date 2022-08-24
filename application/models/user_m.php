@@ -226,7 +226,6 @@ class User_m extends CI_Model  {
         $this->db->set('status', 0);
         $this->db->where('device_unique_id', $arr_post['device_unique_id']);
         $this->db->update('users_device');
-        if($this->db->affected_rows() > 0)
         $data['status'] = 'success';
         return $data;
     }
