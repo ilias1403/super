@@ -39,10 +39,10 @@ class User_m extends CI_Model  {
             $this->db->where('user_id', $result['user_id']);
             $this->db->update('users');
             $this->insert_device_info($arr_post,$result['user_id']);
-            $is_device_active = $this->validate_user_device_id($arr_post,$result['user_id']);
+            // $is_device_active = $this->validate_user_device_id($arr_post,$result['user_id']);
 
             $data['user'] = $result;
-            $data['is_device_active'] = $is_device_active;
+            // $data['is_device_active'] = $is_device_active;
             $data['status'] = 'success';
         }
         else
@@ -194,6 +194,27 @@ class User_m extends CI_Model  {
         else
         {
             $data['is_device_active'] = 'success';
+        }
+
+        return $data;
+    }
+
+    public function checking_main_device_info()
+    {
+        $arr_post = $this->input->post();
+        $this->db->select('*');
+        $this->db->from('users_device');
+        $this->db->where('device_unique_id', $arr_post['device_unique_id']);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            $result = $query->row_array();
+            $data['status'] = 'success';
+            $data['user'] = $result;
+        }
+        else
+        {
+            $data['status'] = 'error';
         }
 
         return $data;

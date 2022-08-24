@@ -43,4 +43,10 @@ class User extends CI_Controller {
     {
         $data = $this->user_m->insert_device_info();
     }
+
+    public function checking_main_device_info()
+    {
+        $data = $this->user_m->checking_main_device_info();
+        echo json_encode($data);
+    }
 }
