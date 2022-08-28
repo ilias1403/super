@@ -59,4 +59,17 @@ class Notify_m extends CI_Model  {
         }
     }
 
+    public function send_notification_v2()
+    {
+        $arr_post = $this->input->post();
+
+        if(isset($arr_post))
+        {
+            $data['title'] = $arr_post['title'];
+            $data['body'] = $arr_post['body'];
+        }
+
+        return $data;
+    }
+
 }
