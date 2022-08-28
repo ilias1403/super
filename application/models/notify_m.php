@@ -61,12 +61,14 @@ class Notify_m extends CI_Model  {
 
     public function send_notification_v2()
     {
-        $arr_post = $this->input->post();
-
-        if(isset($arr_post) && !empty($arr_post))
+        $this->db->select('*');
+        $this->db->from('notifications');
+        $this->db->where('status', 1);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
         {
-            $data['title'] = $arr_post['title'];
-            $data['body'] = $arr_post['body'];
+            $data['notification'] = $query->row_array();
             $data['status'] = 'success';
         }
         else
@@ -75,6 +77,7 @@ class Notify_m extends CI_Model  {
         }
 
         return $data;
+        
     }
 
 }
