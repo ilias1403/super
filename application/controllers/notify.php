@@ -28,7 +28,7 @@ class Notify extends CI_Controller {
 
     public function send_notification_v2()
     {
-        $rs = $this->notify_m->send_notification_v2();
+        $rs['notification'] = $this->notify_m->send_notification_v2();
         echo json_encode($rs);
     }
 }
