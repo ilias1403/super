@@ -68,7 +68,7 @@ class Notify_m extends CI_Model  {
         $query = $this->db->get();
         if($query->num_rows() > 0)
         {
-            $data['notification'] = $query->row_array();
+            $data['notification'] = $query->result_array();
             $data['status'] = 'success';
         }
         else
