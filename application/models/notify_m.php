@@ -67,6 +67,11 @@ class Notify_m extends CI_Model  {
         {
             $data['title'] = $arr_post['title'];
             $data['body'] = $arr_post['body'];
+            $data['status'] = 'success';
+        }
+        else
+        {
+            $data['status'] = 'error';
         }
 
         return $data;
