@@ -63,7 +63,7 @@ class Notify_m extends CI_Model  {
     {
         $arr_post = $this->input->post();
 
-        if(isset($arr_post))
+        if(isset($arr_post) && !empty($arr_post))
         {
             $data['title'] = $arr_post['title'];
             $data['body'] = $arr_post['body'];
